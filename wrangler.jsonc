@@ -18,12 +18,27 @@
 	"observability": {
 		"enabled": true
 	},
-	"r2_buckets": [
-		{
-			"binding": "IMAGE_APP_UPLOADS",
-			"bucket_name": "image-app-uploads-preview",
+
+	"env": {
+		"preview":{
+			"r2_buckets": [
+				{
+					"binding": "IMAGE_APP_UPLOADS",
+					"bucket_name": "image-app-uploads-preview",
+				}
+			],
+
+		},
+		"production": {
+			"r2_buckets": [
+				{
+					"binding": "IMAGE_APP_UPLOADS",
+					"bucket_name": "image-app-uploads",
+				}
+			],
 		}
-	],
+	},
+
 	/**
 	 * Smart Placement
 	 * Docs: https://developers.cloudflare.com/workers/configuration/smart-placement/#smart-placement
