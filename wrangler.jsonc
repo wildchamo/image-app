@@ -19,25 +19,13 @@
 		"enabled": true
 	},
 
-	"env": {
-		"preview":{
-			"r2_buckets": [
-				{
-					"binding": "IMAGE_APP_UPLOADS",
-					"bucket_name": "image-app-uploads-preview",
-				}
-			],
-
-		},
-		"production": {
-			"r2_buckets": [
-				{
-					"binding": "IMAGE_APP_UPLOADS",
-					"bucket_name": "image-app-uploads",
-				}
-			],
+	"r2_buckets": [
+		{
+			"binding": "NEXT_INC_R2_BUCKET_IMAGES",
+			"bucket_name": "image-app-uploads-preview",
 		}
-	},
+	],
+
 
 	/**
 	 * Smart Placement
