@@ -33,6 +33,8 @@ export async function POST(request: Request) {
 
     }
 
+    console.log(imageAnalysis);
+
     return new Response(JSON.stringify(imageAnalysis), { headers: { "Content-Type": "application/json" }, status: 200 });
 
 }

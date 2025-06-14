@@ -3,9 +3,21 @@ import React, { useState } from "react";
 import { ChangeEvent } from "react";
 import { ImageList } from "@/components/ImageList";
 
+interface ImageAnalysisItem {
+  label: string;
+  score: number;
+}
+
 interface UserImage {
   filename: string;
   url: string;
+  analysis?: ImageAnalysisItem[];
+}
+
+interface ImageUploadResult {
+  id: string;
+  url: string;
+  analysis: ImageAnalysisItem[];
 }
 
 export default function Home() {
@@ -29,13 +41,23 @@ export default function Home() {
       });
     }
 
-    fetch("/api/files", { body: formData, method: "post" }).then((response) => {
-      if (response.ok) {
+    fetch("/api/files", { body: formData, method: "post" })
+      .then((response) => response.json<ImageUploadResult[]>())
+      .then((response) => {
+        console.log(response);
+        for (let x = 0; x < response.length; x++) {
+          let image = localUploadedImages.find(
+            (i) => i.filename === response[x].url
+          );
+
+          if (image) {
+            image.analysis = response[x].analysis;
+          }
+        }
+      })
+      .then(() => {
         setUploadedImages(localUploadedImages);
-      } else {
-        // handle an error
-      }
-    });
+      });
   };
 
   return (
