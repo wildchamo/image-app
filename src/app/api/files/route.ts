@@ -6,10 +6,12 @@ export async function POST(request: Request) {
 
     const bucket = env.NEXT_INC_R2_BUCKET_IMAGES;
 
+    const ai = env.AI;
     const body = await request.formData();
 
     const files = body.getAll("files");
 
+    let imageAnalysis = []
     for (let x = 0; x < files.length; x++) {
 
         const f = files[x] as File;
@@ -17,7 +19,20 @@ export async function POST(request: Request) {
 
         await bucket.put(uuid, f);
 
-        return new Response("image uploaded", { headers: { "Content-Type": "application/json" }, status: 200 });
+        const blob = await f.arrayBuffer();
+        const inputs = {
+            image: Array.from(new Uint8Array(blob)),
+        }
+
+        imageAnalysis.push({
+            id: uuid,
+            url: f.name,
+            analysis: await ai.run("@cf/microsoft/resnet-50", inputs)
+        })
+
+
     }
+
+    return new Response(JSON.stringify(imageAnalysis), { headers: { "Content-Type": "application/json" }, status: 200 });
 
 }
