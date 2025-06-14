@@ -19,11 +19,5 @@ export async function POST(request: Request) {
 
         return new Response("image uploaded", { headers: { "Content-Type": "application/json" }, status: 200 });
     }
-    // const bucket = 
 
-    // const { file } = await request.json();
-
-    // const fileUrl = await env.IMAGE_APP_UPLOADS.put(file);
-
-    // return NextResponse.json({ fileUrl });
 }
